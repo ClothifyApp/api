@@ -1,19 +1,19 @@
 const jwt = require('jsonwebtoken');
 const utils = require('../utils/utils');
-const { errors } = require('../utils/constants');
+const { errors, jwtSecret } = require('../utils/constants');
 require('dotenv').config();
-
-const { jwtSecret: SECRET } = CTS;
 
 exports.authenticate = async (req, res, next) => {
   const token = req.headers['x-access-token'];
   if (token) {
-    return jwt.verify(token, SECRET, async (err, decoded) => {
+    return jwt.verify(token, jwtSecret, async (err, decoded) => {
       try {
         if (err || !decoded) {
           return utils.errorResponse(res, errors.AUTHENTICATION_FAILED, err);
         } else {
-          // Find user in db and set data on req.user.
+          // TODO: Find user in db and set data on req.user.
+          // const user = User.find({uuid});
+          // req.user = user;
           return utils.errorResponse(res, errors.AUTHENTICATION_FAILED);
         }
       } catch (error) {

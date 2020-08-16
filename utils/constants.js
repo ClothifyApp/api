@@ -49,10 +49,6 @@ exports.errorsObj = {
     httpCode: 403,
     message: 'Debe completar su perfil para acceder a esta funcionalidad.'
   },
-  NEW_ERROR: {
-    httpCode: 401,
-    message: 'No autorizado'
-  },
   THE_END_OBJ: '',
 };
 
@@ -69,7 +65,6 @@ exports.errors = {
   NO_TOKEN_PROVIDED: 'NO_TOKEN_PROVIDED',
   UNAUTHORIZED: 'UNAUTHORIZED',
   MUST_COMPLETE_PROFILE: 'MUST_COMPLETE_PROFILE',
-  NEW_ERROR: 'NEW_ERROR',
   THE_END_NAMES: '',
 };
 
