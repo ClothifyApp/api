@@ -14,7 +14,12 @@ const UserSchema = new Schema(
     uuid: {
         type: String,
         required: true,
-    }
+    },
+    country: String,
+    preferences: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Tag'
+    }]
   },
   {
     timestamps: {
@@ -25,4 +30,3 @@ const UserSchema = new Schema(
 );
 
 module.exports = mongoose.model('User', UserSchema);
-
