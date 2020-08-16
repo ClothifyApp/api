@@ -22,4 +22,4 @@ const ReactionSchema = new Schema(
   }
 )
 
-module.exports = mongoose.model('Garment', ReactionSchema);
+module.exports = mongoose.model('Reaction', ReactionSchema);
