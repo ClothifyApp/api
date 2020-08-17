@@ -1,6 +1,5 @@
 const express = require('express');
-const userController = require('./controllers/User');
-const { authenticate } = require('./middleware/auth');
+const userRoutes = require('./routes/user');
 
 module.exports = (app) => {
   const apiRoutes = express.Router();
@@ -10,17 +9,9 @@ module.exports = (app) => {
       message: 'Welcome to our api',
     });
   });
-
-  /* -- Authenticate and Authorization processes -- */
-  apiRoutes.get('/prenda', authenticate, (req, res) =>
-    res.json({
-      message: 'Autenticado ;)',
-    })
-  );
-
-  // Users
-  apiRoutes.get('/users', userController.list); // Get all users
-  apiRoutes.post('/users', userController.create); // Create user
-
+  
   app.use(apiRoutes);
+
+  // User Routes
+  app.use(userRoutes);
 };
