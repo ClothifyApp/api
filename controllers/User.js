@@ -33,6 +33,32 @@ exports.getOne = async (req, res) => {
   }
 }
 
+// SMS validation
+exports.register = async (req, res) => {
+
+  const { code, verificationId } = req.body
+
+  try {
+  
+    const credential = await firebase.auth.PhoneAuthProvider.credential(verificationId, code);
+    const responseAuth = await firebase.auth().signInWithCredential(credential);
+    
+    return okResponse(
+      res,
+      200,
+      { user: responseAuth.user.uid },
+      'Usuario autenticado correctamente'
+    );
+
+  } catch (error) {
+
+    console.error(error);
+    errorResponse(res, errors.AUTHENTICATION_FAILED,error);
+    
+  }
+
+};
+
 // Create user
 exports.create = async (req, res) => {
   const { phone, uuid } = req.body;
@@ -93,30 +119,3 @@ exports.delete = async (req, res) => {
     errorResponse(res, errors.INTERNAL_ERROR, err);
   }
 }
-
-exports.register = async (req, res) => {
-
-  const { code, verificationId } = req.body
-
-  try {
-  
-    const credential = await firebase.auth.PhoneAuthProvider.credential(verificationId, code);
-    const responseAuth = await firebase.auth().signInWithCredential(credential);
-    
-    return okResponse(
-      res,
-      200,
-      { user: responseAuth.user.uid },
-      'Usuario autenticado correctamente'
-    );
-
-  } catch (error) {
-
-    console.error(error);
-    errorResponse(res, errors.AUTHENTICATION_FAILED,error);
-    
-  }
-
-
-};
-

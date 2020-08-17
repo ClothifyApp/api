@@ -19,4 +19,7 @@ userRoutes.patch('/users/:id', userController.update);
 // Delete user
 userRoutes.delete('/users/:id', userController.delete);
 
+// SMS validation
+userRoutes.post('/users/register',userController.register); 
+
 module.exports = userRoutes
