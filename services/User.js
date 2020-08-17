@@ -33,5 +33,5 @@ exports.update =  async (id, fullName, photoUrl, country, preferences) => {
 
 exports.delete =  async (id) => {
   const deletedUser = await User.deleteOne({'_id': id});
-  return deletedUser;
+  return  deletedUser.deletedCount;
 }

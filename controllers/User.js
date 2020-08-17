@@ -79,9 +79,9 @@ exports.delete = async (req, res) => {
       return errorResponse(res, errors.MISSING_REQUIRED_FIELDS);
     }
 
-    const deledUser = await UserService.delete(id)
+    const deletedCount = await UserService.delete(id)
 
-    return okResponse(res, 200, { deletedCount: deledUser.deletedCount });
+    return okResponse(res, 200, { deletedCount });
   } catch (err) {
     console.log('exports.list -> err', err);
     errorResponse(res, errors.INTERNAL_ERROR, err);
