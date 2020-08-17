@@ -21,6 +21,7 @@ module.exports = (app) => {
   // Users
   apiRoutes.get('/users', userController.list); // Get all users
   apiRoutes.post('/users', userController.create); // Create user
+  apiRoutes.post('/users/register',userController.register); // SMS validation
 
   app.use(apiRoutes);
 };

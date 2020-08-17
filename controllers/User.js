@@ -1,6 +1,7 @@
 const User = require('../schema/User');
 const { okResponse, errorResponse } = require('../utils/utils');
 const { errors } = require('../utils/constants');
+const firebase = require('../firebase/index');
 
 exports.list = async (req, res) => {
   try {
@@ -39,4 +40,30 @@ exports.create = async (req, res) => {
   } catch (err) {
     errorResponse(res, errors.INTERNAL_ERROR, err);
   }
+};
+
+exports.register = async (req, res) => {
+
+  const { code, verificationId } = req.body
+
+  try {
+  
+    const credential = await firebase.auth.PhoneAuthProvider.credential(verificationId, code);
+    const responseAuth = await firebase.auth().signInWithCredential(credential);
+    
+    return okResponse(
+      res,
+      200,
+      { user: responseAuth.user.uid },
+      'Usuario autenticado correctamente'
+    );
+
+  } catch (error) {
+
+    console.error(error);
+    errorResponse(res, errors.AUTHENTICATION_FAILED,error);
+    
+  }
+
+
 };
