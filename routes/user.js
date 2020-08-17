@@ -4,10 +4,19 @@ const { authenticate } = require('../middleware/auth');
 
 const userRoutes = express.Router()
 
-userRoutes.get('/users', userController.list); // Get all users
-userRoutes.get('/users/:id', userController.getOne); // Get one user
-userRoutes.post('/users', userController.create); // Create user
-userRoutes.patch('/users/:id', userController.update); // Create user
-userRoutes.delete('/users/:id', userController.delete); // delete user
+// Get all users
+userRoutes.get('/users', userController.list); 
+
+// Get one user
+userRoutes.get('/users/:id', userController.getOne);
+
+// Create user
+userRoutes.post('/users', userController.create);
+
+// Create user
+userRoutes.patch('/users/:id', userController.update);
+
+// Delete user
+userRoutes.delete('/users/:id', userController.delete);
 
 module.exports = userRoutes

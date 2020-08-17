@@ -1,8 +1,8 @@
 const UserService = require('../services/User');
 const { okResponse, errorResponse } = require('../utils/utils');
 const { errors } = require('../utils/constants');
-const User = require('../schema/User');
 
+// Get all users
 exports.list = async (req, res) => {
   try {
     const users = await UserService.list({});
@@ -14,6 +14,7 @@ exports.list = async (req, res) => {
   }
 };
 
+// Get one user
 exports.getOne = async (req, res) => {
   try {
     const { id } = req.params;
@@ -31,6 +32,7 @@ exports.getOne = async (req, res) => {
   }
 }
 
+// Create user
 exports.create = async (req, res) => {
   const { phone, uuid } = req.body;
 
@@ -52,6 +54,7 @@ exports.create = async (req, res) => {
   }
 };
 
+// Update user
 exports.update = async (req, res) => {
   try {
     const { id } = req.params;
@@ -70,6 +73,7 @@ exports.update = async (req, res) => {
   }
 }
 
+// Delete user
 exports.delete = async (req, res) => {
   try {
 
