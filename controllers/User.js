@@ -1,10 +1,11 @@
-const User = require('../schema/User');
+const UserService = require('../services/User');
 const { okResponse, errorResponse } = require('../utils/utils');
 const { errors } = require('../utils/constants');
+const User = require('../schema/User');
 
 exports.list = async (req, res) => {
   try {
-    const users = await User.find({});
+    const users = await UserService.list({});
 
     return okResponse(res, 200, { users });
   } catch (err) {
@@ -13,30 +14,76 @@ exports.list = async (req, res) => {
   }
 };
 
+exports.getOne = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return errorResponse(res, errors.MISSING_REQUIRED_FIELDS);
+    }
+
+    const user = await UserService.getOne(id);
+
+    return okResponse(res, 200, { user });
+  } catch (err) {
+    console.log('exports.list -> err', err);
+    errorResponse(res, errors.INTERNAL_ERROR, err);
+  }
+}
+
 exports.create = async (req, res) => {
-  const { phone, fullName, country, uuid } = req.body;
+  const { phone, uuid } = req.body;
 
   if (!phone || !uuid) {
     return errorResponse(res, errors.MISSING_REQUIRED_FIELDS);
   }
 
   try {
-    const newUser = {
-      phone,
-      fullName,
-      country,
-      uuid,
-    };
-
-    await User.create(newUser);
+    const newUSer = await UserService.create(phone, uuid);
 
     return okResponse(
       res,
-      200,
-      { user: newUser },
+      201,
+      { user: newUSer },
       'Usuario creado correctamente'
     );
   } catch (err) {
     errorResponse(res, errors.INTERNAL_ERROR, err);
   }
 };
+
+exports.update = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { fullName, photoUrl, country, preferences } = req.body;
+
+    if (!id, !fullName, !country) {
+      return errorResponse(res, errors.MISSING_REQUIRED_FIELDS);
+    }
+
+    const updatedUser = await UserService.update(id, fullName, photoUrl, country, preferences)
+
+    return okResponse(res, 200, { updatedUser });
+  } catch (err) {
+    console.log('exports.list -> err', err);
+    errorResponse(res, errors.INTERNAL_ERROR, err);
+  }
+}
+
+exports.delete = async (req, res) => {
+  try {
+
+    const { id } = req.params;    
+
+    if (!id) {
+      return errorResponse(res, errors.MISSING_REQUIRED_FIELDS);
+    }
+
+    const deledUser = await UserService.delete(id)
+
+    return okResponse(res, 200, { deletedCount: deledUser.deletedCount });
+  } catch (err) {
+    console.log('exports.list -> err', err);
+    errorResponse(res, errors.INTERNAL_ERROR, err);
+  }
+}

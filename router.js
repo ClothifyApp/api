@@ -1,5 +1,5 @@
 const express = require('express');
-const userController = require('./controllers/User');
+const userRoutes = require('./routes/user');
 const { authenticate } = require('./middleware/auth');
 
 module.exports = (app) => {
@@ -17,10 +17,7 @@ module.exports = (app) => {
       message: 'Autenticado ;)',
     })
   );
-
-  // Users
-  apiRoutes.get('/users', userController.list); // Get all users
-  apiRoutes.post('/users', userController.create); // Create user
-
+  
   app.use(apiRoutes);
+  app.use(userRoutes);
 };
