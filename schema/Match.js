@@ -1,14 +1,16 @@
-let mongoose = require('mongoose');
-let Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema
 
 const MatchSchema = new Schema(
   {
-    user1: {
+    firstUser: {
       type: Schema.Types.ObjectId,
+      required: true,
       ref: 'User'
     },
-    user2: {
+    secondUser: {
       type: Schema.Types.ObjectId,
+      required: true,
       ref: 'User'
     },
     garments: [{

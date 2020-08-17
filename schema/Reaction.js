@@ -1,5 +1,5 @@
-let mongoose = require('mongoose');
-let Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const ReactionSchema = new Schema(
   {
@@ -7,8 +7,12 @@ const ReactionSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User'
     },
-    super: Boolean,
-    isLike: Boolean,
+    type: {
+      type: String,
+      enum: ['like', 'superlike', 'dislike'],
+      default: 'like',
+      required: true
+    },
     garmentId: {
       type: Schema.Types.ObjectId,
       ref: 'Garment'
