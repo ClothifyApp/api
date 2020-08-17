@@ -27,7 +27,7 @@ exports.getOne = async (req, res) => {
 
     return okResponse(res, 200, { user });
   } catch (err) {
-    console.log('exports.list -> err', err);
+    console.log('exports.getOne -> err', err);
     errorResponse(res, errors.INTERNAL_ERROR, err);
   }
 }
@@ -50,6 +50,7 @@ exports.create = async (req, res) => {
       'Usuario creado correctamente'
     );
   } catch (err) {
+    console.log('exports.create -> err', err);
     errorResponse(res, errors.INTERNAL_ERROR, err);
   }
 };
@@ -68,7 +69,7 @@ exports.update = async (req, res) => {
 
     return okResponse(res, 200, { updatedUser });
   } catch (err) {
-    console.log('exports.list -> err', err);
+    console.log('exports.update -> err', err);
     errorResponse(res, errors.INTERNAL_ERROR, err);
   }
 }
@@ -87,7 +88,7 @@ exports.delete = async (req, res) => {
 
     return okResponse(res, 200, { deletedCount });
   } catch (err) {
-    console.log('exports.list -> err', err);
+    console.log('exports.delete -> err', err);
     errorResponse(res, errors.INTERNAL_ERROR, err);
   }
 }
