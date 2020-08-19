@@ -55,7 +55,7 @@ exports.create = async (req, res) => {
   }
 };
 
-// Update user
+// Update tag
 exports.update = async (req, res) => {
   try {
     const { id } = req.params;
@@ -74,7 +74,7 @@ exports.update = async (req, res) => {
   }
 }
 
-// Delete user
+// Delete tag
 exports.delete = async (req, res) => {
   try {
 
