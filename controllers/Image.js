@@ -11,7 +11,7 @@ exports.upload = async (req, res) => {
         console.log('exports.upload -> err', err);
         return errorResponse(res, errors.UPLOAD_ERR , err)
       }
-      let imagePath = { imagePath: req.file.location };
+      let imagePath = req.file.location;
         
       okResponse(res, 201, { imagePath })
     });
