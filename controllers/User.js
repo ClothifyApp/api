@@ -46,28 +46,32 @@ exports.register = async (req, res) => {
     const credential = await firebase.auth.PhoneAuthProvider.credential(verificationId, code);
     const responseAuth = await firebase.auth().signInWithCredential(credential);
 
-    const user = await UserService.list({ 'uuid': responseAuth.user.uid });
-    let userId = 0
-         
-    if (!user.length) {
-      
+    let user = await UserService.getByUid(responseAuth.user.uid);
+    
+    if (!user) {
       isNew = true;
-      const newUser = await UserService.create(responseAuth.user.phoneNumber,responseAuth.user.uid);
-      userId = newUser._id;
-
+      user = await UserService.create(responseAuth.user.phoneNumber,responseAuth.user.uid);
     }
-    else {
-      userId = user.shift()._id;
-    }
+    
   
     const token = generateToken({
-      id:userId
+      id:user._id
     })
+
+    const { phone, photoUrl, fullName, preferences , country }  = user
 
     return okResponse(
       res,
       200,
-      { token , isNew },
+      { token , isNew , user: 
+        {
+          phone,
+          photoUrl,
+          fullName,
+          preferences,
+          country
+        } 
+      },
       'Usuario autenticado correctamente'
     );
 
