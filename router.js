@@ -1,5 +1,6 @@
 const express = require('express');
 const userRoutes = require('./routes/user');
+const tagRoutes = require('./routes/Tag');
 
 module.exports = (app) => {
   const apiRoutes = express.Router();
@@ -14,4 +15,7 @@ module.exports = (app) => {
 
   // User Routes
   app.use(userRoutes);
+
+  // Tag Routes
+  app.use(tagRoutes)
 };
