@@ -56,7 +56,7 @@ exports.update = async (req, res) => {
     const { id } = req.params;
     const { name } = req.body;
 
-    if ((!id, !name)) {
+    if (!id || !name) {
       return errorResponse(res, errors.MISSING_REQUIRED_FIELDS);
     }
 
