@@ -1,5 +1,6 @@
 const express = require('express');
 const userRoutes = require('./routes/user');
+const imageRoutes = require('./routes/Image');
 const tagRoutes = require('./routes/Tag');
 
 module.exports = (app) => {
@@ -15,6 +16,9 @@ module.exports = (app) => {
 
   // User Routes
   app.use(userRoutes);
+
+  // Image Routes
+  app.use(imageRoutes)
 
   // Tag Routes
   app.use(tagRoutes)

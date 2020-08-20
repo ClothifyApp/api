@@ -14,6 +14,7 @@
     "FIREBASE_APP_ID": "@clo-fire-app",
     "S3_SECRET_ACCESS_KEY": "@clo-s3-key",
     "S3_ACCESS_KEY_ID": "@clo-s3-id",
+    "S3_BUCKET" : "@clo-s3-buc",
     "CORS": "*"
   }
 }
