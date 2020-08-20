@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const utils = require('../utils/utils');
 const { errors, jwtSecret } = require('../utils/constants');
+const UserService = require('../services/User');
 require('dotenv').config();
 
 exports.authenticate = async (req, res, next) => {
@@ -11,10 +12,14 @@ exports.authenticate = async (req, res, next) => {
         if (err || !decoded) {
           return utils.errorResponse(res, errors.AUTHENTICATION_FAILED, err);
         } else {
-          // TODO: Find user in db and set data on req.user.
-          // const user = User.find({uuid});
-          // req.user = user;
-          return utils.errorResponse(res, errors.AUTHENTICATION_FAILED);
+          
+          const user = await UserService.getOne(decoded.id)
+          if(user) {
+            req.user = user
+            next()
+          } else {
+            return utils.errorResponse(res, errors.AUTHENTICATION_FAILED);
+          }
         }
       } catch (error) {
         console.log(error);

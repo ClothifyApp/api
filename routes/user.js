@@ -5,21 +5,21 @@ const { authenticate } = require('../middleware/auth');
 const userRoutes = express.Router()
 
 // Get all users
-userRoutes.get('/users', userController.list); 
+userRoutes.get('/users', authenticate, userController.list); 
 
 // Get one user
-userRoutes.get('/users/:id', userController.getOne);
+userRoutes.get('/users/:id', authenticate, userController.getOne);
 
 // Create user
 userRoutes.post('/users', userController.create);
 
 // Create user
-userRoutes.patch('/users/:id', userController.update);
+userRoutes.patch('/users', authenticate, userController.update);
 
 // Delete user
-userRoutes.delete('/users/:id', userController.delete);
+userRoutes.delete('/users', authenticate, userController.delete);
 
 // SMS validation
-userRoutes.post('/users/register',userController.register); 
+userRoutes.post('/users/register', userController.register); 
 
 module.exports = userRoutes

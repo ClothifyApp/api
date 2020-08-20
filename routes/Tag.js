@@ -11,12 +11,12 @@ tagsRoutes.get('/tags', tagController.list);
 tagsRoutes.get('/tags/:id', tagController.getOne);
 
 // Create tag
-tagsRoutes.post('/tags', tagController.create);
+tagsRoutes.post('/tags', authenticate, tagController.create);
 
 // Update tag
-tagsRoutes.patch('/tags/:id', tagController.update);
+tagsRoutes.patch('/tags/:id', authenticate, tagController.update);
 
 // Delete tag
-tagsRoutes.delete('/tags/:id', tagController.delete);
+tagsRoutes.delete('/tags/:id', authenticate, tagController.delete);
 
 module.exports = tagsRoutes

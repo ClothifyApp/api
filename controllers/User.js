@@ -110,7 +110,7 @@ exports.create = async (req, res) => {
 // Update user
 exports.update = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.user._id;
     const { fullName, photoUrl, country, preferences } = req.body;
 
     if (!id, !fullName, !country) {
@@ -130,7 +130,9 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   try {
 
-    const { id } = req.params;
+    const id = req.user._id;
+
+    // Obtener el id del req: const id = req.user.id
 
     if (!id) {
       return errorResponse(res, errors.MISSING_REQUIRED_FIELDS);
