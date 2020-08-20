@@ -10,6 +10,11 @@ exports.getOne = async (id) => {
   return await User.findById(id);
 }
 
+// Get user by uid
+exports.getByUid = async (uid) => {
+  return await User.findOne({ 'uuid' : uid } );
+}
+
 // Create one User
 exports.create =  async (phone, uuid) => {
   const user = {
