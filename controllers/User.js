@@ -2,6 +2,7 @@ const UserService = require('../services/User');
 const { okResponse, errorResponse } = require('../utils/utils');
 const { errors } = require('../utils/constants');
 const firebase = require('../firebase/index');
+const { generateToken } = require('../utils/utils');
 
 // Get all users
 exports.list = async (req, res) => {
@@ -36,17 +37,41 @@ exports.getOne = async (req, res) => {
 // SMS validation
 exports.register = async (req, res) => {
 
+  let isNew = false;
+  
   const { code, verificationId } = req.body
 
   try {
-  
+
     const credential = await firebase.auth.PhoneAuthProvider.credential(verificationId, code);
     const responseAuth = await firebase.auth().signInWithCredential(credential);
+
+    let user = await UserService.getByUid(responseAuth.user.uid);
     
+    if (!user) {
+      isNew = true;
+      user = await UserService.create(responseAuth.user.phoneNumber,responseAuth.user.uid);
+    }
+    
+  
+    const token = generateToken({
+      id:user._id
+    })
+
+    const { phone, photoUrl, fullName, preferences , country }  = user
+
     return okResponse(
       res,
       200,
-      { user: responseAuth.user.uid },
+      { token , isNew , user: 
+        {
+          phone,
+          photoUrl,
+          fullName,
+          preferences,
+          country
+        } 
+      },
       'Usuario autenticado correctamente'
     );
 
@@ -54,7 +79,7 @@ exports.register = async (req, res) => {
 
     console.error(error);
     errorResponse(res, errors.AUTHENTICATION_FAILED,error);
-    
+
   }
 
 };
@@ -105,7 +130,7 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   try {
 
-    const { id } = req.params;    
+    const { id } = req.params;
 
     if (!id) {
       return errorResponse(res, errors.MISSING_REQUIRED_FIELDS);
