@@ -11,11 +11,11 @@ exports.upload = async (req, res) => {
         console.log('exports.upload -> err', err);
         return errorResponse(res, errors.UPLOAD_ERR , err)
       }
-      let imagePath = req.file.location;
+      const imagePath = req.file.location;
         
       okResponse(res, 201, { imagePath })
     });
-} catch (error) {
-  next(error)
-}
+  } catch (error) {
+    errorResponse(res, errors.UPLOAD_ERR , error)
+  }
 }
