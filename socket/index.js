@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+/* eslint-disable no-underscore-dangle */
 // Socket singleton
 const http = require('http');
 const { joinHandler } = require('./handlers');

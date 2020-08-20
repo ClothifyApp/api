@@ -20,6 +20,8 @@ exports.authenticate = async (req, res, next) => {
 
   if (user) {
     req.user = user;
-    next();
+    return next();
   }
+
+  return utils.errorResponse(res, errors.AUTHENTICATION_FAILED);
 };
