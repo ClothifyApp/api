@@ -110,7 +110,7 @@ exports.create = async (req, res) => {
 // Update user
 exports.update = async (req, res) => {
   try {
-    const { id } = req.user._id;
+    const id = req.user._id;
     const { fullName, photoUrl, country, preferences } = req.body;
 
     if (!id, !fullName, !country) {
