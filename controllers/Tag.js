@@ -41,12 +41,12 @@ exports.create = async (req, res) => {
   }
 
   try {
-    const newTag = await tagService.create(name);
+    const tag = await tagService.create(name);
 
     return okResponse(
       res,
       201,
-      { tag: newTag },
+      { tag },
       'Tag creado correctamente'
     );
   } catch (err) {
@@ -67,7 +67,7 @@ exports.update = async (req, res) => {
 
     const updatedTag = await tagService.update(id, name)
 
-    return okResponse(res, 200, { updatedTag });
+    return okResponse(res, 200, { tag: updatedTag });
   } catch (err) {
     console.log('exports.update -> err', err);
     errorResponse(res, errors.INTERNAL_ERROR, err);
