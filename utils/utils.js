@@ -24,9 +24,3 @@ exports.errorResponse = (res, id, extra) => {
     },
   });
 };
-
-exports.generateToken = (doc) => {
-  return jwt.sign(doc, jwtSecret, {
-    expiresIn: jwtExpiresIn,
-  });
-};
