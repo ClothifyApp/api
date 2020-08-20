@@ -7,6 +7,7 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const router = require('./router');
 const port = process.env.PORT || 3002;
+const socket = require('./socket');
 
 const app = express();
 const server = http.createServer(app);
@@ -36,13 +37,6 @@ app.use(
   })
 );
 
-// Sockets
-require('socket.io')(http, {
-  pingInterval: 200,
-  pingTimeout: 10000,
-  origins: '*:*',
-}).listen(server);
-
 // Routes
 router(app);
 
@@ -63,5 +57,8 @@ mongoose.connection.on('error', function (err) {
 server.listen(app.get('port'), function () {
   console.log('Magic happens on port ', app.get('port'));
 });
+
+// Connect Socket
+socket.connect(server);
 
 exports.app = app;
