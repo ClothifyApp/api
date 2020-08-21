@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const prompt = require('prompt');
 const fs = require('fs');
 const path = require('path');
@@ -30,33 +31,32 @@ const schema = {
 
 prompt.start();
 
-prompt.get(schema, function (err, result) {
+prompt.get(schema, (err, result) => {
   if (result) {
-    fs.readFile(CTS_FILE, 'utf8', function (err, data) {
-      if (err) {
-        return console.log(err);
+    fs.readFile(CTS_FILE, 'utf8', (error, data) => {
+      if (error) {
+        return console.log(error);
       }
+
       let constants = data.replace(
         /THE_END_OBJ: '',/g,
         `${result.id}: {
     httpCode: ${result.httpCode},
     message: '${result.message}'
   },
-  THE_END_OBJ: '',`
+  THE_END_OBJ: '',`,
       );
 
       constants = constants.replace(
         /THE_END_NAMES: '',/g,
         `${result.id}: '${result.id}',
-  THE_END_NAMES: '',`
+  THE_END_NAMES: '',`,
       );
 
-      fs.writeFile(CTS_FILE, constants, 'utf8', function (err) {
-        if (err) return console.log('Hubo un error', err);
-      });
+      return fs.writeFile(CTS_FILE, constants, 'utf8');
     });
 
-    console.log(`Successfully added this new error: 
+    console.log(`Successfully added this new error:
     ${result.id}: {
         httpCode: ${result.httpCode},
         message: '${result.message}'
@@ -66,4 +66,6 @@ prompt.get(schema, function (err, result) {
   if (err) {
     console.log('BYE!');
   }
+
+  return 'Done!';
 });

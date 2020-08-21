@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const UserService = require('../services/User');
 const { okResponse, errorResponse } = require('../utils/utils');
 const { errors } = require('../utils/constants');
@@ -11,7 +12,7 @@ exports.list = async (req, res) => {
     return okResponse(res, 200, { users });
   } catch (err) {
     console.log('exports.list -> err', err);
-    errorResponse(res, errors.INTERNAL_ERROR, err);
+    return errorResponse(res, errors.INTERNAL_ERROR, err);
   }
 };
 
@@ -29,7 +30,7 @@ exports.getOne = async (req, res) => {
     return okResponse(res, 200, { user });
   } catch (err) {
     console.log('exports.getOne -> err', err);
-    errorResponse(res, errors.INTERNAL_ERROR, err);
+    return errorResponse(res, errors.INTERNAL_ERROR, err);
   }
 };
 
@@ -42,7 +43,7 @@ exports.register = async (req, res) => {
   try {
     const credential = await firebase.auth.PhoneAuthProvider.credential(
       verificationId,
-      code
+      code,
     );
     const responseAuth = await firebase.auth().signInWithCredential(credential);
 
@@ -52,7 +53,7 @@ exports.register = async (req, res) => {
       isNew = true;
       user = await UserService.create(
         responseAuth.user.phoneNumber,
-        responseAuth.user.uid
+        responseAuth.user.uid,
       );
     }
 
@@ -60,7 +61,9 @@ exports.register = async (req, res) => {
       id: user._id,
     });
 
-    const { phone, photoUrl, fullName, preferences, country } = user;
+    const {
+      phone, photoUrl, fullName, preferences, country,
+    } = user;
 
     return okResponse(
       res,
@@ -76,11 +79,11 @@ exports.register = async (req, res) => {
           country,
         },
       },
-      'Usuario autenticado correctamente'
+      'Usuario autenticado correctamente',
     );
   } catch (error) {
     console.error(error);
-    errorResponse(res, errors.AUTHENTICATION_FAILED, error);
+    return errorResponse(res, errors.AUTHENTICATION_FAILED, error);
   }
 };
 
@@ -99,11 +102,11 @@ exports.create = async (req, res) => {
       res,
       201,
       { user: newUSer },
-      'Usuario creado correctamente'
+      'Usuario creado correctamente',
     );
   } catch (err) {
     console.log('exports.create -> err', err);
-    errorResponse(res, errors.INTERNAL_ERROR, err);
+    return errorResponse(res, errors.INTERNAL_ERROR, err);
   }
 };
 
@@ -111,7 +114,9 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const id = req.user._id;
-    const { fullName, photoUrl, country, preferences } = req.body;
+    const {
+      fullName, photoUrl, country, preferences,
+    } = req.body;
 
     if ((!id, !fullName, !country)) {
       return errorResponse(res, errors.MISSING_REQUIRED_FIELDS);
@@ -122,13 +127,13 @@ exports.update = async (req, res) => {
       fullName,
       photoUrl,
       country,
-      preferences
+      preferences,
     );
 
     return okResponse(res, 200, { updatedUser });
   } catch (err) {
     console.log('exports.update -> err', err);
-    errorResponse(res, errors.INTERNAL_ERROR, err);
+    return errorResponse(res, errors.INTERNAL_ERROR, err);
   }
 };
 
@@ -148,6 +153,6 @@ exports.delete = async (req, res) => {
     return okResponse(res, 200, { deletedCount });
   } catch (err) {
     console.log('exports.delete -> err', err);
-    errorResponse(res, errors.INTERNAL_ERROR, err);
+    return errorResponse(res, errors.INTERNAL_ERROR, err);
   }
 };

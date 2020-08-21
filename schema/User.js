@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+
+const { Schema } = mongoose;
 
 const UserSchema = new Schema(
   {
@@ -12,21 +13,21 @@ const UserSchema = new Schema(
     fullName: String,
     photoUrl: String,
     uuid: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     country: String,
     preferences: [{
       type: Schema.Types.ObjectId,
-      ref: 'Tag'
-    }]
+      ref: 'Tag',
+    }],
   },
   {
     timestamps: {
       createdAt: 'created_at',
       updatedAt: 'updated_at',
     },
-  }
+  },
 );
 
 module.exports = mongoose.model('User', UserSchema);

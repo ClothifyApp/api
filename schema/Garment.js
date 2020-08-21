@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+
+const { Schema } = mongoose;
 
 const GarmentSchema = new Schema(
   {
@@ -8,11 +9,11 @@ const GarmentSchema = new Schema(
     photos: [String],
     tags: [{
       type: Schema.Types.ObjectId,
-      ref: 'Tag'
+      ref: 'Tag',
     }],
     userId: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'User',
     },
   },
   {
@@ -20,7 +21,7 @@ const GarmentSchema = new Schema(
       createdAt: 'created_at',
       updatedAt: 'updated_at',
     },
-  }
-)
+  },
+);
 
 module.exports = mongoose.model('Garment', GarmentSchema);
