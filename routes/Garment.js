@@ -5,21 +5,21 @@ const { authenticate } = require('../middleware/auth');
 const garmentRoutes = express.Router();
 
 // Get all tags
-garmentRoutes.get('/garmets', authenticate, garmentController.list);
+garmentRoutes.get('/garments', authenticate, garmentController.list);
 
 // Get one tag
-garmentRoutes.get('/garmet/:id', authenticate, garmentController.getOne);
+garmentRoutes.get('/garments/:id', authenticate, garmentController.getOne);
 
 // Get one by user
-garmentRoutes.get('/garmet', authenticate, garmentController.getByuser);
+garmentRoutes.get('/garments/user', authenticate, garmentController.getByuser);
 
 // Create tag
-garmentRoutes.post('/garmets', authenticate, garmentController.create);
+garmentRoutes.post('/garments', authenticate, garmentController.create);
 
 // Update tag
-garmentRoutes.patch('/garmet/:id', authenticate, garmentController.update);
+garmentRoutes.patch('/garments/:id', authenticate, garmentController.update);
 
 // Delete tag
-garmentRoutes.delete('/garmet/:id', authenticate, garmentController.delete);
+garmentRoutes.delete('/garments/:id', authenticate, garmentController.delete);
 
 module.exports = garmentRoutes;

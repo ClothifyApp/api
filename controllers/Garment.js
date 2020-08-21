@@ -47,11 +47,12 @@ exports.getOne = async (req, res) => {
 
 // Create garment
 exports.create = async (req, res) => {
+  const userId = req.user._id;
   const {
-    name, description, photos, tags, userId,
+    name, description, photos, tags,
   } = req.body;
 
-  if (!name) {
+  if (!name || !userId) {
     return errorResponse(res, errors.MISSING_REQUIRED_FIELDS);
   }
 
