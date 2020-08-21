@@ -58,9 +58,9 @@ exports.create = async (req, res) => {
 // Update reaction
 exports.update = async (req, res) => {
   try {
-    const id = req.params.id;
+    const { id } = req.params;
     const {
-        userId, type, garmentId,
+      userId, type, garmentId,
     } = req.body;
 
     if ((!userId || !type || !garmentId)) {
@@ -69,9 +69,9 @@ exports.update = async (req, res) => {
 
     const updatedReaction = await ReactionService.update(
       id,
-      userId, 
-      type, 
-      garmentId
+      userId,
+      type,
+      garmentId,
     );
 
     return okResponse(res, 200, { updatedReaction });
@@ -84,8 +84,7 @@ exports.update = async (req, res) => {
 // Delete reaction
 exports.delete = async (req, res) => {
   try {
-    
-    const id = req.params.id;
+    const { id } = req.params;
 
     if (!id) {
       return errorResponse(res, errors.MISSING_REQUIRED_FIELDS);
