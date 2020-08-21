@@ -5,7 +5,7 @@ const { authenticate } = require('../middleware/auth');
 const reactionRoutes = express.Router();
 
 // Get all reactions
-reactionRoutes.get('/reactions',  authenticate,reactionController.list);
+reactionRoutes.get('/reactions', authenticate, reactionController.list);
 
 // Get one reaction
 reactionRoutes.get('/reactions/:id', authenticate, reactionController.getOne);
@@ -17,6 +17,6 @@ reactionRoutes.post('/reactions', authenticate, reactionController.create);
 reactionRoutes.patch('/reactions/:id', authenticate, reactionController.update);
 
 // Delete reaction
-reactionRoutes.delete('/reactions/:id',  authenticate,reactionController.delete);
+reactionRoutes.delete('/reactions/:id', authenticate, reactionController.delete);
 
 module.exports = reactionRoutes;

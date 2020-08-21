@@ -7,11 +7,11 @@ exports.list = async (query) => Reaction.find(query);
 exports.getOne = async (id) => Reaction.findById(id);
 
 // Create one reaction
-exports.create = async (userId,type,garmentId) => {
+exports.create = async (userId, type, garmentId) => {
   const reaction = {
     userId,
     type,
-    garmentId
+    garmentId,
   };
 
   const newReaction = await Reaction.create(reaction);
@@ -19,11 +19,11 @@ exports.create = async (userId,type,garmentId) => {
 };
 
 // Update one reaction by id
-exports.update = async (id,userId,type,garmentId) => {
+exports.update = async (id, userId, type, garmentId) => {
   const update = {
     userId,
     type,
-    garmentId
+    garmentId,
   };
 
   const updatedReaction = await Reaction.updateOne({ _id: id }, update);
