@@ -32,3 +32,9 @@ exports.update = async (id, name, description, photos, tags) => {
   const updateGarment = await Garment.updateOne({ _id: id }, update);
   return updateGarment.nModified;
 };
+
+// Delete one garment by id
+exports.delete = async (id) => {
+  const deleteGarment = await Garment.deleteOne({ _id: id });
+  return deleteGarment.deletedCount;
+};

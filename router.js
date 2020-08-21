@@ -2,6 +2,7 @@ const express = require('express');
 const userRoutes = require('./routes/user');
 const imageRoutes = require('./routes/Image');
 const tagRoutes = require('./routes/Tag');
+const garmentRoutes = require('./routes/Garment');
 
 module.exports = (app) => {
   const apiRoutes = express.Router();
@@ -22,4 +23,7 @@ module.exports = (app) => {
 
   // Tag Routes
   app.use(tagRoutes);
+
+  // Garment Routes
+  app.use(garmentRoutes);
 };
