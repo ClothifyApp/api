@@ -6,20 +6,20 @@ const tagRoutes = require('./routes/Tag');
 module.exports = (app) => {
   const apiRoutes = express.Router();
 
-  apiRoutes.get('/', function (req, res) {
+  apiRoutes.get('/', (req, res) => {
     res.json({
       message: 'Welcome to our api',
     });
   });
-  
+
   app.use(apiRoutes);
 
   // User Routes
   app.use(userRoutes);
 
   // Image Routes
-  app.use(imageRoutes)
+  app.use(imageRoutes);
 
   // Tag Routes
-  app.use(tagRoutes)
+  app.use(tagRoutes);
 };

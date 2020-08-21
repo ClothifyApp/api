@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+
+const { Schema } = mongoose;
 
 const TagSchema = new Schema(
   {
@@ -10,7 +11,7 @@ const TagSchema = new Schema(
       createdAt: 'created_at',
       updatedAt: 'updated_at',
     },
-  }
-)
+  },
+);
 
 module.exports = mongoose.model('Tag', TagSchema);

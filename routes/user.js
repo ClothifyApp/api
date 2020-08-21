@@ -2,10 +2,10 @@ const express = require('express');
 const userController = require('../controllers/User');
 const { authenticate } = require('../middleware/auth');
 
-const userRoutes = express.Router()
+const userRoutes = express.Router();
 
 // Get all users
-userRoutes.get('/users', authenticate, userController.list); 
+userRoutes.get('/users', authenticate, userController.list);
 
 // Get one user
 userRoutes.get('/users/:id', authenticate, userController.getOne);
@@ -20,6 +20,6 @@ userRoutes.patch('/users', authenticate, userController.update);
 userRoutes.delete('/users', authenticate, userController.delete);
 
 // SMS validation
-userRoutes.post('/users/register', userController.register); 
+userRoutes.post('/users/register', userController.register);
 
-module.exports = userRoutes
+module.exports = userRoutes;
