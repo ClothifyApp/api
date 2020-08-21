@@ -32,8 +32,6 @@ exports.getOne = async (req, res) => {
   }
 };
 
-
-
 // Create reaction
 exports.create = async (req, res) => {
   const { userId, type, garmentId } = req.body;
