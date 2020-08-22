@@ -49,6 +49,10 @@ exports.errorsObj = {
     httpCode: 403,
     message: 'Debe completar su perfil para acceder a esta funcionalidad.',
   },
+  SUPERLIKE_RESTRICTION: {
+    httpCode: 403,
+    message: 'El usuario debe esperar 60 segundos para volver a dar superlike',
+  },
   THE_END_OBJ: '',
 };
 
@@ -65,6 +69,7 @@ exports.errors = {
   NO_TOKEN_PROVIDED: 'NO_TOKEN_PROVIDED',
   UNAUTHORIZED: 'UNAUTHORIZED',
   MUST_COMPLETE_PROFILE: 'MUST_COMPLETE_PROFILE',
+  SUPERLIKE_RESTRICTION: 'SUPERLIKE_RESTRICTION',
   THE_END_NAMES: '',
 };
 

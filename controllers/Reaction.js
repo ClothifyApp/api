@@ -2,6 +2,7 @@
 const ReactionService = require('../services/Reaction');
 const { okResponse, errorResponse } = require('../utils/utils');
 const { errors } = require('../utils/constants');
+const { secondsSinceEpoch } = require('../utils/dates');
 
 // Get all reactions
 exports.list = async (req, res) => {
@@ -34,14 +35,40 @@ exports.getOne = async (req, res) => {
 
 // Create reaction
 exports.create = async (req, res) => {
-  const { userId, type, garmentId } = req.body;
+  const { type, garmentId } = req.body;
+  const { user } = req;
 
-  if (!userId || !type || !garmentId) {
+
+  if (!user || !type || !garmentId) {
     return errorResponse(res, errors.MISSING_REQUIRED_FIELDS);
   }
 
   try {
-    const newReaction = await ReactionService.create(userId, type, garmentId);
+
+    let newReaction = '';
+
+    // Only create superlike reactions after 60 seconds for superlike
+    if (type == 'superlike') {
+
+      const latestReactionUser = await ReactionService.getLatestReaction(user._id, 'superlike');
+
+      const { created_at } = latestReactionUser
+
+      const current_seconds = secondsSinceEpoch();
+      const latest_reaction_seconds = secondsSinceEpoch(created_at)
+
+      if ((current_seconds - latest_reaction_seconds) > 60) {
+        newReaction = await ReactionService.create(user._id, type, garmentId);
+      }
+      else {
+        console.log('exports.create -> To create a new superlike wait 60 seconds');
+        return errorResponse(res, errors.SUPERLIKE_RESTRICTION);
+      }
+    }
+    else {
+      newReaction = await ReactionService.create(user._id, type, garmentId);
+    }
+
 
     return okResponse(
       res,
@@ -58,18 +85,18 @@ exports.create = async (req, res) => {
 // Update reaction
 exports.update = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { user } = req;
     const {
-      userId, type, garmentId,
+      type, garmentId,
     } = req.body;
 
-    if ((!userId || !type || !garmentId)) {
+    if ((!user || !type || !garmentId)) {
       return errorResponse(res, errors.MISSING_REQUIRED_FIELDS);
     }
 
     const updatedReaction = await ReactionService.update(
       id,
-      userId,
+      user._id,
       type,
       garmentId,
     );

@@ -6,6 +6,9 @@ exports.list = async (query) => Reaction.find(query);
 // Get one reaction by id
 exports.getOne = async (id) => Reaction.findById(id);
 
+// Get latest reaction type by user
+exports.getLatestReaction = async (id,type) => Reaction.findOne({'userId':id,'type':type},{},{ sort: { created_at: -1 }});
+
 // Create one reaction
 exports.create = async (userId, type, garmentId) => {
   const reaction = {
