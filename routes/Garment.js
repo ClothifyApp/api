@@ -4,8 +4,11 @@ const { authenticate } = require('../middleware/auth');
 
 const garmentRoutes = express.Router();
 
-// Get all tags
+// Bring the clothes for the feed
 garmentRoutes.get('/garments', authenticate, garmentController.list);
+
+// Get all tags
+garmentRoutes.get('/garments/full', authenticate, garmentController.fullList);
 
 // Get one by user
 garmentRoutes.get('/garments/user', authenticate, garmentController.getByuser);

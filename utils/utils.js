@@ -17,3 +17,14 @@ exports.errorResponse = (res, id, extra) => {
     },
   });
 };
+
+exports.shuffleArray = (list) => {
+  // eslint-disable-next-line no-plusplus
+  for (let i = list.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    // eslint-disable-next-line no-param-reassign
+    [list[i], list[j]] = [list[j], list[i]];
+  }
+
+  return list;
+};

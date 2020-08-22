@@ -1,9 +1,13 @@
 const garmentService = require('../services/Garment');
 const reactionService = require('../services/Reaction');
-const { okResponse, errorResponse } = require('../utils/utils');
+const { okResponse, errorResponse, shuffleArray } = require('../utils/utils');
 const { errors } = require('../utils/constants');
 
-// Get all garments
+/*
+Bring the clothes for the feed
+Only bring the ones that still do not react
+If the user has registered preferences, filter the query according to this field
+*/
 exports.list = async (req, res) => {
   try {
     const { _id, preferences } = req.user;
@@ -21,11 +25,23 @@ exports.list = async (req, res) => {
       query.tags = { $in: preferences };
     }
 
-    const garments = await garmentService.list(query);
+    const garments = shuffleArray(await garmentService.list(query));
 
     return okResponse(res, 200, { garments });
   } catch (err) {
     console.log('exports.list -> err', err);
+    return errorResponse(res, errors.INTERNAL_ERROR, err);
+  }
+};
+
+// Gett all the garments (just in case)
+exports.fullList = async (req, res) => {
+  try {
+    const garments = shuffleArray(await garmentService.list({}));
+
+    return okResponse(res, 200, { garments });
+  } catch (err) {
+    console.log('exports.fullList -> err', err);
     return errorResponse(res, errors.INTERNAL_ERROR, err);
   }
 };
