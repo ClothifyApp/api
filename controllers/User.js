@@ -142,8 +142,6 @@ exports.delete = async (req, res) => {
   try {
     const id = req.user._id;
 
-    // Obtener el id del req: const id = req.user.id
-
     if (!id) {
       return errorResponse(res, errors.MISSING_REQUIRED_FIELDS);
     }

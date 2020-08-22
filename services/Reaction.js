@@ -1,7 +1,7 @@
 const Reaction = require('../schema/Reaction');
 
 // Get all reactions
-exports.list = async (query) => Reaction.find(query);
+exports.list = async (query, fields = {}) => Reaction.find(query, fields);
 
 // Get one reaction by id
 exports.getOne = async (id) => Reaction.findById(id);

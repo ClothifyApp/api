@@ -8,7 +8,7 @@ const UserSchema = new Schema(
       type: String,
       unique: true,
       required: true,
-      match: [/^\+{1}\d{12}$/, 'Incorrect format: Phone Number'],
+
     },
     fullName: String,
     photoUrl: String,
