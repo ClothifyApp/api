@@ -7,11 +7,11 @@ const garmentRoutes = express.Router();
 // Get all tags
 garmentRoutes.get('/garments', authenticate, garmentController.list);
 
-// Get one tag
-garmentRoutes.get('/garments/:id', authenticate, garmentController.getOne);
-
 // Get one by user
 garmentRoutes.get('/garments/user', authenticate, garmentController.getByuser);
+
+// Get one tag
+garmentRoutes.get('/garments/:id', authenticate, garmentController.getOne);
 
 // Create tag
 garmentRoutes.post('/garments', authenticate, garmentController.create);

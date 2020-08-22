@@ -1,11 +1,18 @@
 const garmentService = require('../services/Garment');
+const reactionService = require('../services/Reaction');
 const { okResponse, errorResponse } = require('../utils/utils');
 const { errors } = require('../utils/constants');
 
 // Get all garments
 exports.list = async (req, res) => {
   try {
-    const garments = await garmentService.list({});
+    const { _id, preferences } = req.user;
+    const userReactions = [];
+    await (
+      await reactionService.list({ userId: _id }, { garmentId: 1, _id: 0 })
+    ).forEach((reaction) => userReactions.push(reaction.garmentId));
+
+    const garments = await garmentService.list({ _id: { $nin: userReactions } });
 
     return okResponse(res, 200, { garments });
   } catch (err) {
