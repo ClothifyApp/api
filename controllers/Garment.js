@@ -7,12 +7,21 @@ const { errors } = require('../utils/constants');
 exports.list = async (req, res) => {
   try {
     const { _id, preferences } = req.user;
+
     const userReactions = [];
     await (
       await reactionService.list({ userId: _id }, { garmentId: 1, _id: 0 })
     ).forEach((reaction) => userReactions.push(reaction.garmentId));
 
-    const garments = await garmentService.list({ _id: { $nin: userReactions } });
+    const query = {
+      _id: { $nin: userReactions },
+    };
+
+    if (preferences.length) {
+      query.tags = { $in: preferences };
+    }
+
+    const garments = await garmentService.list(query);
 
     return okResponse(res, 200, { garments });
   } catch (err) {
