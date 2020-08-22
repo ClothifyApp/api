@@ -7,7 +7,10 @@ exports.list = async (query, fields = {}) => Reaction.find(query, fields);
 exports.getOne = async (id) => Reaction.findById(id);
 
 // Get latest reaction type by user
-exports.getLatestReaction = async (id,type) => Reaction.findOne({'userId':id,'type':type},{},{ sort: { created_at: -1 }});
+exports.getLatestReaction = async (id, type) => Reaction.findOne(
+  // eslint-disable-next-line quote-props
+  { 'userId': id, 'type': type }, {}, { sort: { created_at: -1 } },
+);
 
 // Create one reaction
 exports.create = async (userId, type, garmentId) => {

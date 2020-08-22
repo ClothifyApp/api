@@ -38,37 +38,31 @@ exports.create = async (req, res) => {
   const { type, garmentId } = req.body;
   const { user } = req;
 
-
   if (!user || !type || !garmentId) {
     return errorResponse(res, errors.MISSING_REQUIRED_FIELDS);
   }
 
   try {
-
     let newReaction = '';
 
     // Only create superlike reactions after 60 seconds for superlike
-    if (type == 'superlike') {
-
+    if (type === 'superlike') {
       const latestReactionUser = await ReactionService.getLatestReaction(user._id, 'superlike');
 
-      const { created_at } = latestReactionUser
+      const { createdAt } = latestReactionUser;
 
-      const current_seconds = secondsSinceEpoch();
-      const latest_reaction_seconds = secondsSinceEpoch(created_at)
+      const currentSeconds = secondsSinceEpoch();
+      const latestReactionSeconds = secondsSinceEpoch(createdAt);
 
-      if ((current_seconds - latest_reaction_seconds) > 60) {
+      if ((currentSeconds - latestReactionSeconds) > 60) {
         newReaction = await ReactionService.create(user._id, type, garmentId);
-      }
-      else {
+      } else {
         console.log('exports.create -> To create a new superlike wait 60 seconds');
         return errorResponse(res, errors.SUPERLIKE_RESTRICTION);
       }
-    }
-    else {
+    } else {
       newReaction = await ReactionService.create(user._id, type, garmentId);
     }
-
 
     return okResponse(
       res,
@@ -86,6 +80,7 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const { user } = req;
+    const { id } = req.params;
     const {
       type, garmentId,
     } = req.body;
