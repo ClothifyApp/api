@@ -7,47 +7,51 @@ exports.jwtExpiresIn = process.env.JWT_EXPIRES_IN || '365d';
 exports.errorsObj = {
   INTERNAL_ERROR: {
     httpCode: 400,
-    message: 'Ha ocurrido un error interno, intenta más tarde.'
+    message: 'Ha ocurrido un error interno, intenta más tarde.',
   },
   NOT_FOUND: {
     httpCode: 404,
-    message: 'El recurso no existe o no tiene privilegios para acceder.'
+    message: 'El recurso no existe o no tiene privilegios para acceder.',
   },
   MISSING_REQUIRED_FIELDS: {
     httpCode: 400,
-    message: 'Faltan campos que son obligatorios.'
+    message: 'Faltan campos que son obligatorios.',
   },
   UPLOAD_ERR: {
     httpCode: 503,
-    message: 'Hubo un error subiendo el archivo.'
+    message: 'Hubo un error subiendo el archivo.',
   },
   UNSUPPORTED_EXTENSIONS: {
     httpCode: 400,
-    message: 'Tipo de archivo no soportado.'
+    message: 'Tipo de archivo no soportado.',
   },
   FILE_TOO_LARGE: {
     httpCode: 400,
-    message: 'Los archivos deben pesar menos de ' + this.maxImgSize / 1000000 + ' MB.'
+    message: `Los archivos deben pesar menos de ${this.maxImgSize / 1000000} MB.`,
   },
   METHOD_NOT_ALLOWED: {
     httpCode: 405,
-    message: 'Método no soportado.'
+    message: 'Método no soportado.',
   },
   AUTHENTICATION_FAILED: {
     httpCode: 401,
-    message: 'Ha ocurrido un error de autenticacion, inicie sesion de nuevo.'
+    message: 'Ha ocurrido un error de autenticacion, inicie sesion de nuevo.',
   },
   NO_TOKEN_PROVIDED: {
     httpCode: 403,
-    message: 'Inicie sesion de nuevo.'
+    message: 'Inicie sesion de nuevo.',
   },
   UNAUTHORIZED: {
     httpCode: 401,
-    message: 'El recurso no existe o necesitas privilegios para accederlo.'
+    message: 'El recurso no existe o necesitas privilegios para accederlo.',
   },
   MUST_COMPLETE_PROFILE: {
     httpCode: 403,
-    message: 'Debe completar su perfil para acceder a esta funcionalidad.'
+    message: 'Debe completar su perfil para acceder a esta funcionalidad.',
+  },
+  SUPERLIKE_RESTRICTION: {
+    httpCode: 403,
+    message: 'El usuario debe esperar 60 segundos para volver a dar superlike',
   },
   THE_END_OBJ: '',
 };
@@ -65,6 +69,7 @@ exports.errors = {
   NO_TOKEN_PROVIDED: 'NO_TOKEN_PROVIDED',
   UNAUTHORIZED: 'UNAUTHORIZED',
   MUST_COMPLETE_PROFILE: 'MUST_COMPLETE_PROFILE',
+  SUPERLIKE_RESTRICTION: 'SUPERLIKE_RESTRICTION',
   THE_END_NAMES: '',
 };
 

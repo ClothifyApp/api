@@ -2,24 +2,21 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-const UserSchema = new Schema(
+const MatchSchema = new Schema(
   {
-    phone: {
-      type: String,
-      unique: true,
-      required: true,
-
-    },
-    fullName: String,
-    photoUrl: String,
-    uuid: {
-      type: String,
-      required: true,
-    },
-    country: String,
-    preferences: [{
+    firstUser: {
       type: Schema.Types.ObjectId,
-      ref: 'Tag',
+      required: true,
+      ref: 'User',
+    },
+    secondUser: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
+    },
+    garments: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Garment',
     }],
   },
   {
@@ -30,4 +27,4 @@ const UserSchema = new Schema(
   },
 );
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('Match', MatchSchema);

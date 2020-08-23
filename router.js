@@ -1,26 +1,33 @@
 const express = require('express');
-const userController = require('./controllers/User');
-const { authenticate } = require('./middleware/auth');
+const userRoutes = require('./routes/user');
+const imageRoutes = require('./routes/Image');
+const tagRoutes = require('./routes/Tag');
+const garmentRoutes = require('./routes/Garment');
+const reactionRoutes = require('./routes/Reaction');
 
 module.exports = (app) => {
   const apiRoutes = express.Router();
 
-  apiRoutes.get('/', function (req, res) {
+  apiRoutes.get('/', (req, res) => {
     res.json({
       message: 'Welcome to our api',
     });
   });
 
-  /* -- Authenticate and Authorization processes -- */
-  apiRoutes.get('/prenda', authenticate, (req, res) =>
-    res.json({
-      message: 'Autenticado ;)',
-    })
-  );
-
-  // Users
-  apiRoutes.get('/users', userController.list); // Get all users
-  apiRoutes.post('/users', userController.create); // Create user
-
   app.use(apiRoutes);
+
+  // User Routes
+  app.use(userRoutes);
+
+  // Image Routes
+  app.use(imageRoutes);
+
+  // Tag Routes
+  app.use(tagRoutes);
+
+  // Garment Routes
+  app.use(garmentRoutes);
+
+  // Reaction Routes
+  app.use(reactionRoutes);
 };
