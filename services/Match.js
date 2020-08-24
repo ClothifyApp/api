@@ -6,6 +6,27 @@ exports.list = async (query) => Match.find(query);
 
 exports.getOne = async (id) => Match.findById(id);
 
+exports.getUserMatches = async (userId) => {
+  const query = {
+    $or: [{ firstUser: userId },
+      { secondUser: userId }],
+  };
+
+  const matches = await Match.find(query)
+    .populate({
+      path: 'firstUser',
+      select: 'fullName photoUrl country phone',
+    })
+    .populate({
+      path: 'secondUser',
+      select: 'fullName photoUrl country phone',
+    })
+    .populate('garments')
+    .exec();
+
+  return matches;
+};
+
 exports.create = async (firstUser, secondUser, garments) => {
   const create = {
     firstUser,
@@ -63,7 +84,7 @@ exports.validateMatch = async (userReact, garmentId) => {
       garments.push(reaction.garmentId._id);
     });
 
-    await this.create(userReact, owner.userId, garments)
+    await this.create(userReact, owner.userId, garments);
 
     return true;
   }

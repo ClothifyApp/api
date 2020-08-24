@@ -7,6 +7,9 @@ const matchRoutes = express.Router();
 // Get all match
 matchRoutes.get('/match', authenticate, matchController.list);
 
+// Get all user's match
+matchRoutes.get('/match/user', authenticate, matchController.getUserMatches);
+
 // Get one match
 matchRoutes.get('/match/:id', matchController.getOne);
 

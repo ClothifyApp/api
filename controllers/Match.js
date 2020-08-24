@@ -13,6 +13,19 @@ exports.list = async (req, res) => {
   }
 };
 
+exports.getUserMatches = async (req, res) => {
+  try {
+    const id = req.user._id;
+
+    const matches = await MatchService.getUserMatches(id);
+
+    return okResponse(res, 200, { matches });
+  } catch (err) {
+    console.log('exports.list -> err', err);
+    return errorResponse(res, errors.INTERNAL_ERROR, err);
+  }
+};
+
 // Get one match
 exports.getOne = async (req, res) => {
   try {
