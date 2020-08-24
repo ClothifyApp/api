@@ -4,6 +4,7 @@ const imageRoutes = require('./routes/Image');
 const tagRoutes = require('./routes/Tag');
 const garmentRoutes = require('./routes/Garment');
 const reactionRoutes = require('./routes/Reaction');
+const matchRoutes = require('./routes/Match');
 
 module.exports = (app) => {
   const apiRoutes = express.Router();
@@ -30,4 +31,7 @@ module.exports = (app) => {
 
   // Reaction Routes
   app.use(reactionRoutes);
+
+  // Match Routes
+  app.use(matchRoutes);
 };

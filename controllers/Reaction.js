@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 const ReactionService = require('../services/Reaction');
+const MatchService = require('../services/Match');
 const { okResponse, errorResponse } = require('../utils/utils');
 const { errors } = require('../utils/constants');
 const { secondsSinceEpoch } = require('../utils/dates');
@@ -49,19 +50,26 @@ exports.create = async (req, res) => {
     if (type === 'superlike') {
       const latestReactionUser = await ReactionService.getLatestReaction(user._id, 'superlike');
 
-      const { createdAt } = latestReactionUser;
+      if (latestReactionUser) {
+        const { createdAt } = latestReactionUser;
+        const currentSeconds = secondsSinceEpoch();
+        const latestReactionSeconds = secondsSinceEpoch(createdAt);
 
-      const currentSeconds = secondsSinceEpoch();
-      const latestReactionSeconds = secondsSinceEpoch(createdAt);
-
-      if ((currentSeconds - latestReactionSeconds) > 60) {
-        newReaction = await ReactionService.create(user._id, type, garmentId);
-      } else {
-        console.log('exports.create -> To create a new superlike wait 60 seconds');
-        return errorResponse(res, errors.SUPERLIKE_RESTRICTION);
+        if ((currentSeconds - latestReactionSeconds) <= 60) {
+          console.log('exports.create -> To create a new superlike wait 60 seconds');
+          return errorResponse(res, errors.SUPERLIKE_RESTRICTION);
+        }
       }
+    }
+
+    newReaction = await ReactionService.create(user._id, type, garmentId);
+
+    const isMatch = await MatchService.validateMatch(user._id, garmentId);
+
+    if (isMatch) {
+      console.log("It's a match");
     } else {
-      newReaction = await ReactionService.create(user._id, type, garmentId);
+      console.log("No It's a match");
     }
 
     return okResponse(
