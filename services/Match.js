@@ -71,7 +71,7 @@ exports.validateMatch = async (userReact, garmentId) => {
     await this.update(
       posibleMatch._id, posibleMatch.firstUser, posibleMatch.secondUser, posibleMatch.garments,
     );
-    return true;
+    return posibleMatch;
   }
 
   // Get reactions of owner user where he reacts o garments of the userReac
@@ -84,9 +84,9 @@ exports.validateMatch = async (userReact, garmentId) => {
       garments.push(reaction.garmentId._id);
     });
 
-    await this.create(userReact, owner.userId, garments);
+    const newMatch = await this.create(userReact, owner.userId, garments);
 
-    return true;
+    return newMatch;
   }
 
   return false;

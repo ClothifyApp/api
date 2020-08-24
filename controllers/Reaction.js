@@ -67,9 +67,8 @@ exports.create = async (req, res) => {
     const isMatch = await MatchService.validateMatch(user._id, garmentId);
 
     if (isMatch) {
-      console.log("It's a match");
-    } else {
-      console.log("No It's a match");
+      console.log(isMatch.firstUser);
+      console.log(isMatch.secondUser);
     }
 
     return okResponse(
