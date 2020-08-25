@@ -4,7 +4,6 @@ const MatchService = require('../services/Match');
 const { okResponse, errorResponse } = require('../utils/utils');
 const { errors } = require('../utils/constants');
 const { secondsSinceEpoch } = require('../utils/dates');
-const { connection } = require('../socket').connection;
 
 // Get all reactions
 exports.list = async (req, res) => {
@@ -68,11 +67,13 @@ exports.create = async (req, res) => {
     const match = await MatchService.validateMatch(user._id, garmentId);
 
     if (match) {
-      connection.sendEvent(match.firstUser, 'match', {
-        data: match,
+      // eslint-disable-next-line global-require
+      const socket = require('../socket').connection();
+      socket.sendEvent(match.firstUser, 'match', {
+        data: { match },
       });
-      connection.sendEvent(match.secondUser, 'match', {
-        data: match,
+      socket.sendEvent(match.secondUser, 'match', {
+        data: { match },
       });
     }
 
