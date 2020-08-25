@@ -15,6 +15,7 @@ const server = http.createServer(app);
 
 // App configuration
 app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE');
   res.header(
     'Access-Control-Allow-Headers',
