@@ -4,6 +4,7 @@ const MatchService = require('../services/Match');
 const { okResponse, errorResponse } = require('../utils/utils');
 const { errors } = require('../utils/constants');
 const { secondsSinceEpoch } = require('../utils/dates');
+const { connection } = require('../socket').connection;
 
 // Get all reactions
 exports.list = async (req, res) => {
@@ -64,11 +65,15 @@ exports.create = async (req, res) => {
 
     newReaction = await ReactionService.create(user._id, type, garmentId);
 
-    const isMatch = await MatchService.validateMatch(user._id, garmentId);
+    const match = await MatchService.validateMatch(user._id, garmentId);
 
-    if (isMatch) {
-      console.log(isMatch.firstUser);
-      console.log(isMatch.secondUser);
+    if (match) {
+      connection.sendEvent(match.firstUser, 'match', {
+        data: match,
+      });
+      connection.sendEvent(match.secondUser, 'match', {
+        data: match,
+      });
     }
 
     return okResponse(
