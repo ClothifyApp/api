@@ -2,21 +2,26 @@ const express = require('express');
 const reactionController = require('../controllers/Reaction');
 const { authenticate } = require('../middleware/auth');
 
-const reactionRoutes = express.Router();
+function reactionsApi(app) {
 
-// Get all reactions
-reactionRoutes.get('/reactions', authenticate, reactionController.list);
+    const reactionRoutes = express.Router();
+    app.use("/reactions", reactionRoutes);
 
-// Get one reaction
-reactionRoutes.get('/reactions/:id', authenticate, reactionController.getOne);
+    // Get all reactions
+    reactionRoutes.get('/',authenticate, reactionController.list);
 
-// Create reaction
-reactionRoutes.post('/reactions', authenticate, reactionController.create);
+    // Get one reaction
+    reactionRoutes.get('/:id', authenticate, reactionController.getOne);
 
-// Update reaction
-reactionRoutes.patch('/reactions/:id', authenticate, reactionController.update);
+    // Create reaction
+    reactionRoutes.post('/', authenticate, reactionController.create);
 
-// Delete reaction
-reactionRoutes.delete('/reactions/:id', authenticate, reactionController.delete);
+    // Update reaction
+    reactionRoutes.patch('/:id', authenticate, reactionController.update);
 
-module.exports = reactionRoutes;
+    // Delete reaction
+    reactionRoutes.delete('/:id', authenticate, reactionController.delete);
+
+}
+
+module.exports = reactionsApi;

@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "add-error": "node scripts/addError.js"
+    "add-error": "node scripts/addError.js",
+    "test": "mocha --exit",
+    "test:cover": "nyc npm run test"
   },
   "keywords": [
     "javascript",
@@ -29,9 +31,26 @@
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "eslint": "^7.7.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
-    "prompt": "^1.0.0"
+    "mocha": "^8.1.1",
+    "nyc": "^15.1.0",
+    "prompt": "^1.0.0",
+    "proxyquire": "^2.1.3",
+    "sinon": "^9.0.3",
+    "supertest": "^4.0.2"
+  },
+  "nyc": {
+    "all": true,
+    "include": [
+      "routes",
+      "services",
+      "lib",
+      "utils",
+      "schema",
+      "middleware"
+    ]
   }
 }
