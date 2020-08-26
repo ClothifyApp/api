@@ -19,6 +19,7 @@ exports.list = async (req, res) => {
 
     const query = {
       _id: { $nin: userReactions },
+      userId: { $ne: _id },
     };
 
     if (preferences.length) {
