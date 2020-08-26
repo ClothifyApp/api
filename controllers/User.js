@@ -37,8 +37,11 @@ exports.getOne = async (req, res) => {
 // SMS validation
 exports.register = async (req, res) => {
   let isNew = false;
-
   const { code, verificationId } = req.body;
+
+  if (!code || !verificationId) {
+    return errorResponse(res, errors.MISSING_REQUIRED_FIELDS);
+  }
 
   try {
     const credential = await firebase.auth.PhoneAuthProvider.credential(
