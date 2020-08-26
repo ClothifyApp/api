@@ -6,6 +6,8 @@ exports.list = async (query) => Garment.find(query);
 // Get one garment
 exports.getOne = async (id) => Garment.findById(id);
 
+exports.getGarmentUser = async (id) => Garment.findOne({ _id: id }, { _id: 0, userId: 1 });
+
 // Create one garment
 exports.create = async (name, description, photos, tags, userId) => {
   const garment = {

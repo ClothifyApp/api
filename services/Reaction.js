@@ -3,6 +3,21 @@ const Reaction = require('../schema/Reaction');
 // Get all reactions
 exports.list = async (query, fields = {}) => Reaction.find(query, fields);
 
+// Get reactions by user
+exports.getReactionMatch = async (userId, userReact) => {
+  let posible = await Reaction.find(
+    { userId },
+  ).populate({
+    path: 'garmentId',
+    match: { userId: userReact },
+    select: '_id',
+  }).exec();
+
+  posible = posible.filter((ele) => ele.garmentId);
+
+  return posible;
+};
+
 // Get one reaction by id
 exports.getOne = async (id) => Reaction.findById(id);
 
