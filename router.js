@@ -17,12 +17,9 @@ module.exports = (app) => {
 
   app.use(apiRoutes);
 
-
   userRoutes(app);
 
-  // Image Routes
-  app.use(imageRoutes);
-
+  imageRoutes(app);
 
   tagRoutes(app);
 
@@ -30,7 +27,5 @@ module.exports = (app) => {
 
   reactionRoutes(app)
 
-  // Match Routes
-  app.use(matchRoutes);
-
+  matchRoutes(app);
 };
