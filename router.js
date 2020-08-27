@@ -17,21 +17,20 @@ module.exports = (app) => {
 
   app.use(apiRoutes);
 
-  // User Routes
-  app.use(userRoutes);
+
+  userRoutes(app);
 
   // Image Routes
   app.use(imageRoutes);
 
-  // Tag Routes
-  app.use(tagRoutes);
 
-  // Garment Routes
-  app.use(garmentRoutes);
+  tagRoutes(app);
 
-  // Reaction Routes
-  app.use(reactionRoutes);
+  garmentRoutes(app);
+
+  reactionRoutes(app)
 
   // Match Routes
   app.use(matchRoutes);
+
 };

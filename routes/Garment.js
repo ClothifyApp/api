@@ -2,27 +2,32 @@ const express = require('express');
 const garmentController = require('../controllers/Garment');
 const { authenticate } = require('../middleware/auth');
 
-const garmentRoutes = express.Router();
+function garmentsApi(app) {
 
-// Bring the clothes for the feed
-garmentRoutes.get('/garments', authenticate, garmentController.list);
+    const garmentRoutes = express.Router();
+    app.use("/garments", garmentRoutes);
 
-// Get all tags
-garmentRoutes.get('/garments/full', authenticate, garmentController.fullList);
+    // Bring the clothes for the feed
+    garmentRoutes.get('/',  authenticate,garmentController.list);
 
-// Get one by user
-garmentRoutes.get('/garments/user', authenticate, garmentController.getByuser);
+    // Get all tags
+    garmentRoutes.get('/full', authenticate, garmentController.fullList);
 
-// Get one tag
-garmentRoutes.get('/garments/:id', authenticate, garmentController.getOne);
+    // Get one by user
+    garmentRoutes.get('/user', authenticate, garmentController.getByuser);
 
-// Create tag
-garmentRoutes.post('/garments', authenticate, garmentController.create);
+    // Get one tag
+    garmentRoutes.get('/:id', authenticate, garmentController.getOne);
 
-// Update tag
-garmentRoutes.patch('/garments/:id', authenticate, garmentController.update);
+    // Create tag
+    garmentRoutes.post('/', authenticate, garmentController.create);
 
-// Delete tag
-garmentRoutes.delete('/garments/:id', authenticate, garmentController.delete);
+    // Update tag
+    garmentRoutes.patch('/:id', authenticate, garmentController.update);
 
-module.exports = garmentRoutes;
+    // Delete tag
+    garmentRoutes.delete('/:id', authenticate, garmentController.delete);
+
+}
+
+module.exports = garmentsApi;

@@ -2,21 +2,29 @@ const express = require('express');
 const tagController = require('../controllers/Tag');
 const { authenticate } = require('../middleware/auth');
 
-const tagsRoutes = express.Router();
 
-// Get all tags
-tagsRoutes.get('/tags', tagController.list);
+function tagsApi(app) {
 
-// Get one tag
-tagsRoutes.get('/tags/:id', tagController.getOne);
+    const tagsRoutes = express.Router();
+    app.use("/tags",tagsRoutes);
 
-// Create tag
-tagsRoutes.post('/tags', authenticate, tagController.create);
+    // Get all tags
+    tagsRoutes.get('/', tagController.list);
 
-// Update tag
-tagsRoutes.patch('/tags/:id', authenticate, tagController.update);
+    // Get one tag
+    tagsRoutes.get('/:id', tagController.getOne);
 
-// Delete tag
-tagsRoutes.delete('/tags/:id', authenticate, tagController.delete);
+    // Create tag
+    tagsRoutes.post('/', authenticate, tagController.create);
 
-module.exports = tagsRoutes;
+    // Update tag
+    tagsRoutes.patch('/:id', authenticate, tagController.update);
+
+    // Delete tag
+    tagsRoutes.delete('/:id', authenticate, tagController.delete);
+
+
+}
+
+
+module.exports = tagsApi;
