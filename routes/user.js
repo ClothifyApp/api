@@ -2,24 +2,27 @@ const express = require('express');
 const userController = require('../controllers/User');
 const { authenticate } = require('../middleware/auth');
 
-const userRoutes = express.Router();
+function usersApi(app) {
+  const userRoutes = express.Router();
+  app.use('/users', userRoutes);
 
-// Get all users
-userRoutes.get('/users', authenticate, userController.list);
+  // Get all users
+  userRoutes.get('/', authenticate, userController.list);
 
-// Get one user
-userRoutes.get('/users/:id', authenticate, userController.getOne);
+  // Get one user
+  userRoutes.get('/:id', authenticate, userController.getOne);
 
-// Create user
-userRoutes.post('/users', userController.create);
+  // Create user
+  userRoutes.post('/', userController.create);
 
-// Create user
-userRoutes.patch('/users', authenticate, userController.update);
+  // Update user
+  userRoutes.patch('/', authenticate, userController.update);
 
-// Delete user
-userRoutes.delete('/users', authenticate, userController.delete);
+  // Delete user
+  userRoutes.delete('/', authenticate, userController.delete);
 
-// SMS validation
-userRoutes.post('/users/register', userController.register);
+  // SMS validation
+  userRoutes.post('/register', userController.register);
+}
 
-module.exports = userRoutes;
+module.exports = usersApi;
