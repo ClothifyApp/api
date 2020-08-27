@@ -6,6 +6,9 @@ exports.list = async (query) => {
     .populate({
       path: 'userId',
       select: 'fullName photoUrl country phone',
+    }).populate({
+      path: 'tags',
+      select: 'name',
     }).exec();
 
   return garments;
