@@ -17,6 +17,10 @@ const UserSchema = new Schema(
       required: true,
     },
     country: String,
+    gender: {
+      type: String,
+      enum: ['F', 'M', 'N'],
+    },
     preferences: [{
       type: Schema.Types.ObjectId,
       ref: 'Tag',

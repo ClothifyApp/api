@@ -1,7 +1,18 @@
 const Garment = require('../schema/Garment');
 
 // Get all garment
-exports.list = async (query) => Garment.find(query);
+exports.list = async (query) => {
+  const garments = await Garment.find(query)
+    .populate({
+      path: 'userId',
+      select: 'fullName photoUrl country phone gender',
+    }).populate({
+      path: 'tags',
+      select: 'name',
+    }).exec();
+
+  return garments;
+};
 
 // Get one garment
 exports.getOne = async (id) => Garment.findById(id);

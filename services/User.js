@@ -21,12 +21,13 @@ exports.create = async (phone, uuid) => {
 };
 
 // Update one User by id
-exports.update = async (id, fullName, photoUrl, country, preferences) => {
+exports.update = async (id, fullName, photoUrl, country, preferences, gender) => {
   const update = {
     fullName,
     photoUrl: photoUrl || '',
     country,
     preferences: preferences || [],
+    gender,
   };
 
   const updatedUser = await User.updateOne({ _id: id }, update);
