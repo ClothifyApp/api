@@ -60,8 +60,11 @@ exports.validateMatch = async (userReact, garmentId) => {
 
   // Search if the two users have one match
   const posibleMatch = await Match.findOne({
-    $or: [{ firstUser: userReact }, { firstUser: owner.userId },
-      { secondUser: userReact }, { secondUser: owner.userId }],
+    $and: [
+      { $or: [{ firstUser: userReact }, { firstUser: owner.userId }] },
+      // eslint-disable-next-line no-dupe-keys
+      { $or: [{ secondUser: userReact }, { secondUser: owner.userId }] },
+    ],
   });
 
   // If exists a match, Add to this the new garment
