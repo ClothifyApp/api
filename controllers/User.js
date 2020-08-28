@@ -115,7 +115,7 @@ exports.update = async (req, res) => {
   try {
     const id = req.user._id;
     const {
-      fullName, photoUrl, country, preferences,
+      fullName, photoUrl, country, preferences, gender,
     } = req.body;
 
     if ((!id, !fullName, !country)) {
@@ -128,6 +128,7 @@ exports.update = async (req, res) => {
       photoUrl,
       country,
       preferences,
+      gender,
     );
 
     return okResponse(res, 200, { updatedUser });
