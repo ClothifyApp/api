@@ -2,7 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 // Socket singleton
 const http = require('http');
-const { joinHandler } = require('./handlers');
+const { joinHandler, leaveHandler } = require('./handlers');
 
 let connection = null;
 
@@ -27,6 +27,10 @@ class Socket {
       // Events
       socket.on('join', (data) => {
         joinHandler(socket, data);
+      });
+
+      socket.on('leave', (data) => {
+        leaveHandler(socket, data);
       });
     });
   }
