@@ -27,10 +27,6 @@ exports.leaveHandler = async (socket, data) => {
   const { id, error } = jwt.validateToken(token);
 
   if (!error && id) {
-    const user = await User.getOne(id);
-
-    if (user) {
-      socket.leave(id);
-    }
+    socket.leave(id);
   }
 };
