@@ -21,3 +21,16 @@ exports.joinHandler = async (socket, data) => {
     }
   }
 };
+
+exports.leaveHandler = async (socket, data) => {
+  const { token } = data;
+  const { id, error } = jwt.validateToken(token);
+
+  if (!error && id) {
+    const user = await User.getOne(id);
+
+    if (user) {
+      socket.leave(id);
+    }
+  }
+};
