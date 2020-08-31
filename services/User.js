@@ -1,4 +1,7 @@
 const User = require('../schema/User');
+const Match = require('../schema/Match');
+const Garment = require('../schema/Garment');
+const Reaction = require('../schema/Reaction');
 
 // Get all users
 exports.list = async (query) => User.find(query);
@@ -37,5 +40,11 @@ exports.update = async (id, fullName, photoUrl, country, preferences, gender) =>
 // Delete one user by id
 exports.delete = async (id) => {
   const deletedUser = await User.deleteOne({ _id: id });
+  await Garment.deleteMany({ userId: id });
+  await Match.deleteMany({
+    $or: [{ firstUser: id }, { secondUser: id }],
+  });
+  await Reaction.deleteMany({ userId: id });
+
   return deletedUser.deletedCount;
 };
