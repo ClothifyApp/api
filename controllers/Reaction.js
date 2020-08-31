@@ -89,7 +89,7 @@ exports.create = async (req, res) => {
 
     if (newReaction.type === 'superlike') {
       const superNoty = await ReactionService.notifySuper(user._id, garmentId);
-      socket.sendEvent(superNoty.owner, 'match', {
+      socket.sendEvent(superNoty.owner, 'superlike', {
         data: {
           nameUser: superNoty.nameUser,
           garment: superNoty.garment.name,
