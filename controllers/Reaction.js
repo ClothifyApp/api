@@ -75,7 +75,7 @@ exports.create = async (req, res) => {
           garmets: match.matchR.garments,
         },
       });
-      socket.sendEvent(match.matchR.secondUser, 'match', {
+      socket.sendEvent(match.secondUser._id, 'match', {
         data: {
           userMatch: match.firstUser,
           garmets: match.matchR.garments,
