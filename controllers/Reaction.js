@@ -54,8 +54,13 @@ exports.create = async (req, res) => {
         const { createdAt } = latestReactionUser;
         const currentSeconds = secondsSinceEpoch();
         const latestReactionSeconds = secondsSinceEpoch(createdAt);
+        const resta = currentSeconds - latestReactionSeconds;
 
-        if ((currentSeconds - latestReactionSeconds) <= 60) {
+        console.log(currentSeconds);
+        console.log(latestReactionSeconds);
+        console.log(resta);
+
+        if (resta <= 60) {
           console.log('exports.create -> To create a new superlike wait 60 seconds');
           return errorResponse(res, errors.SUPERLIKE_RESTRICTION);
         }
@@ -63,12 +68,11 @@ exports.create = async (req, res) => {
     }
 
     newReaction = await ReactionService.create(user._id, type, garmentId);
-
     const match = await MatchService.validateMatch(user._id, garmentId);
 
+    // eslint-disable-next-line global-require
+    const socket = require('../socket').connection();
     if (match) {
-      // eslint-disable-next-line global-require
-      const socket = require('../socket').connection();
       socket.sendEvent(match.firstUser._id, 'match', {
         data: {
           userMatch: match.secondUser,
@@ -79,6 +83,16 @@ exports.create = async (req, res) => {
         data: {
           userMatch: match.firstUser,
           garmets: match.matchR.garments,
+        },
+      });
+    }
+
+    if (newReaction.type === 'superlike') {
+      const superNoty = await ReactionService.notifySuper(user._id, garmentId);
+      socket.sendEvent(superNoty.owner, 'match', {
+        data: {
+          nameUser: superNoty.nameUser,
+          garment: superNoty.garment.name,
         },
       });
     }
