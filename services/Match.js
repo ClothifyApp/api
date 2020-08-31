@@ -70,15 +70,16 @@ exports.validateMatch = async (userReact, garmentId) => {
 
   // If exists a match, Add to this the new garment
   if (posibleMatch) {
-    // TO DO update de match
     posibleMatch.garments.push(garmentId);
     await this.update(
       posibleMatch._id, posibleMatch.firstUser, posibleMatch.secondUser, posibleMatch.garments,
     );
-    const userMatch = await UserService.getOne(posibleMatch.secondUser);
+    const firstUser = await UserService.getOne(posibleMatch.firstUser);
+    const secondUser = await UserService.getOne(posibleMatch.secondUser);
     return {
-      userMatch,
-      garmets: posibleMatch.garments,
+      firstUser,
+      secondUser,
+      matchR: posibleMatch,
     };
   }
 
@@ -94,10 +95,12 @@ exports.validateMatch = async (userReact, garmentId) => {
 
     const match = await this.create(userReact, owner.userId, garments);
 
-    const userMatch = await UserService.getOne(owner.userId);
+    const firstUser = await UserService.getOne(userReact);
+    const secondUser = await UserService.getOne(owner.userId);
     return {
-      userMatch,
-      garmets: match.garments,
+      firstUser,
+      secondUser,
+      matchR: match,
     };
   }
 
