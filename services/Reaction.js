@@ -1,4 +1,6 @@
 const Reaction = require('../schema/Reaction');
+const GarmentService = require('./Garment');
+const UserService = require('./User');
 
 // Get all reactions
 exports.list = async (query, fields = {}) => Reaction.find(query, fields);
@@ -55,4 +57,16 @@ exports.update = async (id, userId, type, garmentId) => {
 exports.delete = async (id) => {
   const deleteReaction = await Reaction.deleteOne({ _id: id });
   return deleteReaction.deletedCount;
+};
+
+exports.notifySuper = async (userReact, garmentId) => {
+  const owner = await GarmentService.getGarmentUser(garmentId);
+  const userReactO = await UserService.getOne(userReact);
+  const garment = await GarmentService.getOne(garmentId);
+
+  return {
+    owner: owner.userId,
+    nameUser: userReactO.fullName,
+    garment,
+  };
 };
