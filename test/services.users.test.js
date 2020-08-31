@@ -73,15 +73,4 @@ describe("services - users",function(){
        
     })
 
-    describe("when delete method is called",async function(){
-        
-        it("should call delete method", async function() {
-            
-            await userService.delete();
-            assert.strictEqual(userServiceMock.deleteOneStub.called, true);
- 
-        });
-       
-    })
-
 })

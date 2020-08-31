@@ -49,7 +49,6 @@ exports.create = async (req, res) => {
     // Only create superlike reactions after 60 seconds for superlike
     if (type === 'superlike') {
       const latestReactionUser = await ReactionService.getLatestReaction(user._id, 'superlike');
-      console.log('Last react', latestReactionUser);
 
       if (latestReactionUser) {
         // eslint-disable-next-line camelcase
