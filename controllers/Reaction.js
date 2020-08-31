@@ -56,9 +56,9 @@ exports.create = async (req, res) => {
         const latestReactionSeconds = secondsSinceEpoch(createdAt);
         const resta = currentSeconds - latestReactionSeconds;
 
-        console.log(currentSeconds);
-        console.log(latestReactionSeconds);
-        console.log(resta);
+        console.log('Current Seconds', currentSeconds);
+        console.log('last react Seconds', latestReactionSeconds);
+        console.log('resta', resta);
 
         if (resta <= 60) {
           console.log('exports.create -> To create a new superlike wait 60 seconds');
