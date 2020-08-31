@@ -49,16 +49,14 @@ exports.create = async (req, res) => {
     // Only create superlike reactions after 60 seconds for superlike
     if (type === 'superlike') {
       const latestReactionUser = await ReactionService.getLatestReaction(user._id, 'superlike');
+      console.log('Last react', latestReactionUser);
 
       if (latestReactionUser) {
-        const { createdAt } = latestReactionUser;
+        // eslint-disable-next-line camelcase
+        const { created_at } = latestReactionUser;
         const currentSeconds = secondsSinceEpoch();
-        const latestReactionSeconds = secondsSinceEpoch(createdAt);
+        const latestReactionSeconds = secondsSinceEpoch(created_at);
         const resta = currentSeconds - latestReactionSeconds;
-
-        console.log('Current Seconds', currentSeconds);
-        console.log('last react Seconds', latestReactionSeconds);
-        console.log('resta', resta);
 
         if (resta <= 60) {
           console.log('exports.create -> To create a new superlike wait 60 seconds');
