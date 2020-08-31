@@ -1,3 +1,4 @@
+const { matchsMock } = require("./matchs");
 const { usersMock } = require("./users");
 const sinon = require("sinon");
 
@@ -6,41 +7,43 @@ const findByIdStub = sinon.stub();
 const createdStub = sinon.stub();
 const updatedOneStub = sinon.stub();
 const deleteOneStub = sinon.stub();
+const getUserMatchesStub = sinon.stub();
 
-findStub.withArgs({}).resolves(usersMock);
-findByIdStub.withArgs("5f4312cdb1dc1d460422c571").resolves(usersMock[0]);
-
-createdStub.withArgs({
-    phone: "+57324587212",
-    uuid: "4564cvcvsfddfw456",
-}).resolves(usersMock[1]);
-
+findStub.withArgs({}).resolves(matchsMock);
+findByIdStub.withArgs("5f4315184e43d65bb2487e75").resolves(matchsMock[0]);
+createdStub.resolves(matchsMock[1]);
 updatedOneStub.resolves({ "nModified": 1 });
-
 deleteOneStub.resolves({ "deletedCount": 1 });
+getUserMatchesStub.resolves()
+
 
 
 module.exports = {
-    find: (query) => {
+    find : (query) => {
         return findStub(query);
     },
-    findById: (id) => {
+    findById: (id)=>{
         return findByIdStub(id);
     },
-    create: (user) => {
-        return createdStub(user);
+    create: (match) => {
+        return createdStub(match);
     },
-    updateOne: () => {
+    update: () => {
         return updatedOneStub();
     },
     deleteOne: () => {
         return deleteOneStub();
     },
+    getUserMatches:() => {
+        return usersMock
+    },
     findStub,
     findByIdStub,
     createdStub,
     updatedOneStub,
-    deleteOneStub
+    deleteOneStub,
+    getUserMatchesStub
+
 };
 
 
