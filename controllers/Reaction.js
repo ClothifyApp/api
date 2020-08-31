@@ -4,7 +4,6 @@ const MatchService = require('../services/Match');
 const { okResponse, errorResponse } = require('../utils/utils');
 const { errors } = require('../utils/constants');
 const { secondsSinceEpoch } = require('../utils/dates');
-const { use } = require('chai');
 
 // Get all reactions
 exports.list = async (req, res) => {
