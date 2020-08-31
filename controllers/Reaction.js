@@ -69,11 +69,17 @@ exports.create = async (req, res) => {
     if (match) {
       // eslint-disable-next-line global-require
       const socket = require('../socket').connection();
-      socket.sendEvent(match.firstUser, 'match', {
-        data: { match },
+      socket.sendEvent(match.firstUser._id, 'match', {
+        data: {
+          userMatch: match.secondUser,
+          garmets: match.matchR.garments,
+        },
       });
-      socket.sendEvent(match.secondUser, 'match', {
-        data: { match },
+      socket.sendEvent(match.matchR.secondUser, 'match', {
+        data: {
+          userMatch: match.firstUser,
+          garmets: match.matchR.garments,
+        },
       });
     }
 
