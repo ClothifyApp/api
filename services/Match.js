@@ -1,6 +1,7 @@
 const Match = require('../schema/Match');
 const GarmentService = require('./Garment');
 const ReactionService = require('./Reaction');
+const UserService = require('./User');
 
 exports.list = async (query) => Match.find(query);
 
@@ -74,7 +75,11 @@ exports.validateMatch = async (userReact, garmentId) => {
     await this.update(
       posibleMatch._id, posibleMatch.firstUser, posibleMatch.secondUser, posibleMatch.garments,
     );
-    return posibleMatch;
+    const userMatch = await UserService.getOne(posibleMatch.secondUser);
+    return {
+      userMatch,
+      garmets: posibleMatch.garments,
+    };
   }
 
   // Get reactions of owner user where he reacts o garments of the userReac
@@ -87,9 +92,13 @@ exports.validateMatch = async (userReact, garmentId) => {
       garments.push(reaction.garmentId._id);
     });
 
-    const newMatch = await this.create(userReact, owner.userId, garments);
+    const match = await this.create(userReact, owner.userId, garments);
 
-    return newMatch;
+    const userMatch = await UserService.getOne(owner.userId);
+    return {
+      userMatch,
+      garmets: match.garments,
+    };
   }
 
   return false;
