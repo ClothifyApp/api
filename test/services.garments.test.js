@@ -14,22 +14,22 @@ describe("services - garments",function(){
         "../schema/Garment": garmentServiceMock
     });
 
-    describe("when list method is called",async function(){
+    // describe("when list method is called",async function(){
         
-        it("should call find method ", async function() {
-            await garmentService.list({});
-            assert.strictEqual(garmentServiceMock.findStub.called, true);
+    //     it("should call find method ", async function() {
+    //         await garmentService.list({});
+    //         assert.strictEqual(garmentServiceMock.findStub.called, true);
  
-        });
+    //     });
 
-        it("should return an array of garments", async function() {
+    //     it("should return an array of garments", async function() {
             
-            const garments = await garmentService.list({});
-            assert.deepEqual(garments, garmentsMock);
+    //         const garments = await garmentService.list({});
+    //         assert.deepEqual(garments, garmentsMock);
  
-        });
+    //     });
        
-    })
+    // })
 
     describe("when getOne method is called",async function(){
         
