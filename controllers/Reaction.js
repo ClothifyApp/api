@@ -65,7 +65,12 @@ exports.create = async (req, res) => {
     }
 
     newReaction = await ReactionService.create(user._id, type, garmentId);
-    const match = await MatchService.validateMatch(user._id, garmentId);
+
+    let match = null;
+
+    if (type !== 'dislike') {
+      match = await MatchService.validateMatch(user._id, garmentId);
+    }
 
     // eslint-disable-next-line global-require
     const socket = require('../socket').connection();
