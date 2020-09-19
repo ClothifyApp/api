@@ -8,7 +8,10 @@ exports.list = async (query, fields = {}) => Reaction.find(query, fields);
 // Get reactions by user
 exports.getReactionMatch = async (userId, userReact) => {
   let posible = await Reaction.find(
-    { userId },
+    {
+      userId,
+      type: { $ne: 'dislike' },
+    },
   ).populate({
     path: 'garmentId',
     match: { userId: userReact },
